@@ -10,11 +10,12 @@ include_once '../../models/Category.php';
 $method = $_SERVER['REQUEST_METHOD'];
 $args = $_SERVER['QUERY_STRING'];
 
+if ($method === 'OPTIONS') {
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
+    exit();
+}
 
-//include 'read.php';
-//include 'read_single.php';
-//include 'create.php';
-//include 'update.php';
 
 if($method == 'PUT') include 'update.php';
 elseif($method == 'POST') include 'create.php';
