@@ -11,7 +11,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $parts = explode("/", $_SERVER["REQUEST_URI"]);
 
-$args = $parts[4];
+$args = empty($parts[4]) ? NULL : $parts[4];
 
 
 if ($method === 'OPTIONS') {
