@@ -10,7 +10,7 @@ $quote = new Quote($db);
 // Get ID
 $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
 
-// Get author
+// Get quote
 $quote->read_single();
 
   // Create array
