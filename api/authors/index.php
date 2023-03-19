@@ -24,8 +24,9 @@ if ($method === 'OPTIONS') {
 if($method == 'PUT') include 'update.php';
 elseif($method == 'DELETE') include 'delete.php';
 elseif($method == 'POST') include 'create.php';
+elseif($args == NULL && $method == 'GET') include 'read.php';
 elseif($args != "") include 'read_single.php';
-elseif($method == 'GET') include 'read.php';
+
 
 
 
