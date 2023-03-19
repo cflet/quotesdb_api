@@ -13,11 +13,15 @@
   // Set ID to update
   $category->id = $data->id;
 
-  $rtnObj = array('id' => $category->id);
+  //Create Array
+  $category_arr = array(
+    'id' => $category->id
+  );
+
 
   // Delete category
   if($category->delete()) {
-    echo json_encode($rtnObj);
+    print_r(json_encode($category_arr));
   } else {
     echo json_encode(
       array('message' => 'Category Not Deleted')

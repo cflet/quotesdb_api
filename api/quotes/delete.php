@@ -13,11 +13,14 @@
   // Set ID to update
   $quote->id = $data->id;
 
-  $rtnObj = array('id' => $quote->id);
+ //Create array
+ $quote_arr = array(
+  'id' => $quote->id
+ );
 
   // Delete quote
   if($quote->delete()) {
-    echo json_encode($rtnObj);
+    print_r(json_encode($quote_arr));
   } else {
     echo json_encode(
       array('message' => 'Quote Not Deleted')
