@@ -14,12 +14,11 @@
   $author->id = $data->id;
 
   //to JSON obj
-  rtnObj = json_encode(
-    array('id' => $author->id), JSON_FORCE_OBJECT);
+  rtnObj = array('id' => $author->id);
 
   // Delete post
   if($author->delete()) {
-    echo rtnObj;
+    echo json_encode(rtnObj);
   } else {
     echo json_encode(
       array('message' => 'Author Not Deleted')
