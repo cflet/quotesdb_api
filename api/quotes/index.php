@@ -8,7 +8,11 @@ include_once '../../config/Database.php';
 include_once '../../models/Quote.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
-$args = $_SERVER['QUERY_STRING'];
+
+$parts = explode("/", $_SERVER["REQUEST_URI"]);
+
+$args = empty($parts[3]) ? NULL : $parts[3];
+
 
 if ($method === 'OPTIONS') {
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
@@ -18,7 +22,12 @@ if ($method === 'OPTIONS') {
 
 
 if($method == 'PUT') include 'update.php';
-elseif($method == 'POST') include 'create.php';
-elseif($args) include 'read_single.php';
-elseif($method == 'GET') include 'read.php';
 elseif($method == 'DELETE') include 'delete.php';
+elseif($method == 'POST') include 'create.php';
+elseif($args != NULL) include 'read_single.php';
+elseif($method == 'GET') include 'read.php';
+
+
+
+
+
