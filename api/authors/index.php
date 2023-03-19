@@ -8,7 +8,7 @@ include_once '../../config/Database.php';
 include_once '../../models/Author.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
-$args = $_SERVER['QUERY_STRING'];
+//$args = $_SERVER['QUERY_STRING'];
 
 
 if ($method === 'OPTIONS') {
@@ -20,6 +20,6 @@ if ($method === 'OPTIONS') {
 
 if($method == 'PUT') include 'update.php';
 elseif($method == 'POST') include 'create.php';
-elseif($method == 'GET' && $args == null) include 'read.php';
+elseif($method == 'GET' && ($_SERVER['QUERY_STRING']) == null) include 'read.php';
 elseif($method == 'DELETE') include 'delete.php';
-elseif($args) include 'read_single.php';
+elseif($_SERVER['QUERY_STRING']) include 'read_single.php';
