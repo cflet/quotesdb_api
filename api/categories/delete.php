@@ -16,7 +16,7 @@
   // Delete category
   if($category->delete()) {
     echo json_encode(
-      array('id' => $category->id)
+      array('id' => $category->id), JSON_FORCE_OBJECT
     );
   } else {
     echo json_encode(

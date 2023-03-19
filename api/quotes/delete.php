@@ -16,7 +16,7 @@
   // Delete quote
   if($quote->delete()) {
     echo json_encode(
-      array('id' => $quote->id)
+      array('id' => $quote->id), JSON_FORCE_OBJECT
     );
   } else {
     echo json_encode(

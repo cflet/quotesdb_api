@@ -16,7 +16,7 @@
   // Delete post
   if($author->delete()) {
     echo json_encode(
-      array('id' => $author->id)
+      array('id' => $author->id), JSON_FORCE_OBJECT
     );
   } else {
     echo json_encode(
