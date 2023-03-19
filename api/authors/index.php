@@ -19,7 +19,8 @@ if ($method === 'OPTIONS') {
 
 
 if($method == 'PUT') include 'update.php';
-elseif($method == 'POST') include 'create.php';
-elseif($method == 'GET' && ($_SERVER['QUERY_STRING']) == null) include 'read.php';
 elseif($method == 'DELETE') include 'delete.php';
+elseif($method == 'POST') include 'create.php';
 elseif($_SERVER['QUERY_STRING']) include 'read_single.php';
+elseif($method == 'GET') include 'read.php';
+
