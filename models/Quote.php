@@ -6,6 +6,13 @@ class Quote {
 private $conn;
 private $table = 'quotes';
 
+// 'SELECT q.id, q.quote, a.author, c.category
+// FROM' . $this-table . 'q
+// INNER JOIN authors a
+// ON q.author_id = a.id
+// INNER JOIN categories c
+// ON q.category_id = c.id'
+
 
 //Post Properties
 public $id;
@@ -21,10 +28,12 @@ public function __construct($db) {
 //Get Quotes
 public function read() {
     //Create query
-    $query = 'SELECT
-    id, quote, author_id, category_id
-    FROM
-    ' . $this->table;
+    $query = 'SELECT q.id, q.quote, a.author, c.category
+    FROM ' . $this->table . ' q
+    INNER JOIN authors a
+    ON q.author_id = a.id
+    INNER JOIN categories c
+    ON q.category_id = c.id';
 
     //Prepared Statement
     $stmt = $this->conn->prepare($query);
@@ -38,10 +47,14 @@ public function read() {
 // Get single post
 public function read_single() {
     // Create query
-    $query = 'SELECT id, quote, author_id, category_id
-        FROM ' . $this->table . '
+    $query = 'SELECT q.id, q.quote, a.author, c.category
+    FROM ' . $this->table . ' q
+    INNER JOIN authors a
+    ON q.author_id = a.id
+    INNER JOIN categories c
+    ON q.category_id = c.id
         WHERE
-        id = ?';
+       q.id = ?';
 
     // Prepare statement
     $stmt = $this->conn->prepare($query);
@@ -57,8 +70,8 @@ public function read_single() {
     // Set properties
     $this->id = $row['id'];
     $this->quote = $row['quote'];
-    $this->author_id = $row['author_id'];
-    $this->category_id = $row['category_id'];
+    $this->author_id = $row['author'];
+    $this->category_id = $row['category'];
 }
 
  // Create Post
