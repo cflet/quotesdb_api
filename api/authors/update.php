@@ -14,6 +14,8 @@ $data = json_decode(file_get_contents("php://input"));
 $author->id = $data->id;
 $author->author = $data->author;
 
+echo var_dump($author->id);
+
 
 if($author->author == ""){
     $missParam = ["message" => 'Missing Required Parameters'];
