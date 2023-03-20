@@ -27,10 +27,13 @@ public function read() {
     //Prepared Statement
     $stmt = $this->conn->prepare($query);
 
-    //Execute query
-    $stmt->execute();
-
-    return $stmt;
+    try{
+        //Execute query
+        $stmt->execute();
+        return $stmt;
+    }catch(PDOException $e){
+        return false;
+    }
 }
 
 // Get single post
@@ -43,46 +46,39 @@ public function read_single() {
 
     // Prepare statement
     $stmt = $this->conn->prepare($query);
-
     // Bind ID
     $stmt->bindParam(1, $this->id);
 
+    try{
     // Execute query
     $stmt->execute();
-
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // Set properties
-    //$this->id = $row['id'];
     $this->author = $row['author'];
+    return $stmt;
+
+    }catch(PDOException $e){
+        return false;
+    }
 }
 
  // Create Post
  public function create() {
     // Create query
-    $query = 'INSERT INTO ' . $this->table . '(author) VALUES(:author)';
-
-    //SET title = :title, body = :body, author = :author, category_id = :category_id
-
+    $query = 'INSERT INTO ' . $this->table . '(author) VALUES(:author) RETURNING id';
     // Prepare statement
     $stmt = $this->conn->prepare($query);
-
     // Clean data
     $this->author = htmlspecialchars(strip_tags($this->author));
-
-
     // Bind data
     $stmt->bindParam(':author', $this->author);
 
-    // Execute query
-    if($stmt->execute()) {
-      return true;
-}
-
-// Print error if something goes wrong
-printf("Error: %s.\n", $stmt->error);
-
-return false;
+    try{
+        // Execute query
+        if($stmt->execute())
+        return $stmt;
+    }catch(PDOException $e){
+        return false;
+    }
 }
 
 
@@ -105,16 +101,15 @@ public function update() {
         //Bind data
         $stmt->bindParam(':author', $this->author);
         $stmt->bindParam(':id', $this->id);
-  
-        //Execure query
-        if($stmt->execute()) {
-            return true;
+
+        try{
+           //Execure query
+            $stmt->execute();
+            return $stmt;
+        }catch(PDOException $e){
+            return false;
         }
-  
-        //Print error if something goes wrong
-        printf("Error: %s.\n", $stmt->error);
-  
-        return false;
+
   }
 
 // Delete Post

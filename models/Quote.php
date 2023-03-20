@@ -10,6 +10,8 @@ private $table = 'quotes';
 //Post Properties
 public $id;
 public $quote;
+public $author_id;
+public $category_id;
 
 //Constructor with DB
 public function __construct($db) {

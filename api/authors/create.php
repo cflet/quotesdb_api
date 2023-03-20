@@ -9,18 +9,25 @@ $author = new Author($db);
 
 // Get raw data
 $data = json_decode(file_get_contents("php://input"));
-
 $author->author = $data->author;
-//$author->id = $data->id;
 
-// Create author
-if($author->create()) {
-    echo json_encode(
-    array('id' => "{$author->id}",
-    'author' => $author->author
-    ));
-} else {
-    echo json_encode(
-    array('message' => 'Author Not Created')
-    );
+//Check for missing param
+if($author->author == ""){
+    $missParam = ["message" => 'Missing Required Parameters'];
+    echo json_encode($missParam);
+}else{
+    try{
+        $result = $author->create();
+        $table = $result->fetch(PDO::FETCH_ASSOC);
+        $newId = $table['id'];
+        $mess = ["id" => $newId, "author" => $author->author];
+        echo json_encode($mess);
+    }catch(PDOException $e){
+        //authorId or categoryId not found
+        echo json_encode();
+    }
 }
+
+
+
+
