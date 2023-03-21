@@ -22,6 +22,5 @@ if($result == false){
     "author" => $author->author
   ];
 // Make JSON
-echo (json_encode($author_arr));  
+echo (json_encode($author_arr)); 
 };
-

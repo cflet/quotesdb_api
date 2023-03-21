@@ -1,9 +1,4 @@
 <?php 
-  // Headers
-  header('Access-Control-Allow-Origin: *');
-  header('Content-Type: application/json');
-  header('Access-Control-Allow-Methods: POST');
-  header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization,X-Requested-With');
 
 // Instantiate DB & connect
 $database = new Database();
@@ -21,18 +16,15 @@ if($author->author == ""){
     $missParam = ["message" => 'Missing Required Parameters'];
     echo json_encode($missParam);
 }else{
-    try{
-        $result = $author->create();
-        $table = $result->fetch(PDO::FETCH_ASSOC);
-        $newId = $table['id'];
-        $mess = ["id" => $newId, "author" => $author->author];
-        echo json_encode($mess);
-    }catch(PDOException $e){
-        //authorId or categoryId not found
-        echo json_encode();
-    }
+  $result = $author->create();
+
+  if($result != false){
+  $table = $result->fetch(PDO::FETCH_ASSOC);
+  $newId = strval($table['id']);
+  $mess = ["id" => $newId, "author" => $author->author];
+  echo json_encode($mess); 
+  }else{
+    $notFound = ["message" => 'author_id Not Found'];
+    echo json_encode($notFound); 
+  }
 }
-
-
-
-
