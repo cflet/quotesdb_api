@@ -11,13 +11,17 @@ $category = new Category($db);
 $category->id = isset($_GET['id']) ? $_GET['id'] : die();
 
 // Get category
-$category->read_single();
+$result = $category->read_single();
 
-  // Create array
-  $category_arr = array(
-    'id' => $category->id,
-    'category' => $category->category
-  );
-
+if($result == false){
+  $noCat = ["message" => 'category_id Not Found'];
+  echo json_encode($noCat);
+}else{
+    // Create output
+  $category_arr = ["id" => $category->id,
+    "category" => $category->category
+  ];
 // Make JSON
-print_r(json_encode($category_arr));
+echo (json_encode($category_arr));  
+};
+

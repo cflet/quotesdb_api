@@ -43,26 +43,26 @@ public function read_single() {
 
     // Prepare statement
     $stmt = $this->conn->prepare($query);
-
     // Bind ID
     $stmt->bindParam(1, $this->id);
 
-    // Execute query
-    $stmt->execute();
-
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // Set properties
-    //$this->id = $row['id'];
-    $this->category = $row['category'];
+    try{
+      $stmt->execute();
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      if($row == false) return false;
+      else{
+        $this->category = $row['category'];
+        return $stmt;
+      }
+    }catch(PDOException $e){
+      return false;
+    }
 }
 
  // Create Post
  public function create() {
     // Create query
     $query = 'INSERT INTO ' . $this->table . '(category) VALUES(:category)';
-
-    //SET title = :title, body = :body, author = :author, category_id = :category_id
 
     // Prepare statement
     $stmt = $this->conn->prepare($query);
