@@ -38,10 +38,13 @@ public function read() {
     //Prepared Statement
     $stmt = $this->conn->prepare($query);
 
+    try{
     //Execute query
     $stmt->execute();
-
     return $stmt;
+    }catch(PDOException $e){
+        return false;
+    }
 }
 
 // Get single post
@@ -58,28 +61,32 @@ public function read_single() {
 
     // Prepare statement
     $stmt = $this->conn->prepare($query);
-
     // Bind ID
     $stmt->bindParam(1, $this->id);
 
-    // Execute query
-    $stmt->execute();
+    try{
+        // Execute query
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($row == false) return false;
+        else{
+        // Set properties
+        $this->id = $row['id'];
+        $this->quote = $row['quote'];
+        $this->author_id = $row['author'];
+        $this->category_id = $row['category'];
+        return $stmt;
+        }
+    }catch(PDOException $e){
+        return false;
+    }
 
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // Set properties
-    $this->id = $row['id'];
-    $this->quote = $row['quote'];
-    $this->author_id = $row['author'];
-    $this->category_id = $row['category'];
 }
 
  // Create Post
  public function create() {
     // Create query
     $query = 'INSERT INTO ' . $this->table . '(quote, author_id, category_id) VALUES(:quote, :author_id, :category_id)';
-
-    //SET title = :title, body = :body, author = :author, category_id = :category_id
 
     // Prepare statement
     $stmt = $this->conn->prepare($query);
@@ -104,6 +111,9 @@ public function read_single() {
 printf("Error: %s.\n", $stmt->error);
 
 return false;
+
+
+
 }
 
 

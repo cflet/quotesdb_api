@@ -9,15 +9,15 @@ $quote = new Quote($db);
 
 //Call blog read method
 $result = $quote->read();
-//Get row count
-$num = $result->rowCount();
 
+if($result != false){
+    //Get row count
+$num = $result->rowCount();
 //Check for any post
 if($num > 0) {
     //Post array
      $quotes_arr = array();
      //$quotes_arr['data'] = array();
-
      while($row = $result->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
     
@@ -27,18 +27,19 @@ if($num > 0) {
             'author' => $author,
             'category' => $category
         );
-    
         //Push to "data"
         array_push($quotes_arr, $quote_item);
      }
 
       //Turn to JSON & output
     echo json_encode($quotes_arr);
+}
+}else {
+        //No Quotes
+        echo json_encode(
+            array('message' => 'No Quotes Found')
+         );
 
-} else {
-    //No Quotes
-    echo json_encode(
-       array('message' => 'No Quotes Found')
-    );
-   }
-   
+}
+
+

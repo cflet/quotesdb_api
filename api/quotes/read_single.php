@@ -11,15 +11,20 @@ $quote = new Quote($db);
 $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
 
 // Get quote
-$quote->read_single();
+$results = $quote->read_single();
 
-  // Create array
-  $quote_arr = array(
-    'id' => $quote->id,
-    'quote' => $quote->quote,
-    'author' => $quote->author_id,
-    'category' => $quote->category_id
-  );
 
-// Make JSON
-print_r(json_encode($quote_arr));
+if($results == false){
+  $noQuote = ["message" => 'Not Quotes Found'];
+  echo json_encode($noQuote);
+}else{
+  //Create output
+  $quote_arr = [
+    "id" => $quote->id,
+    "quote" => $quote->quote,
+    "author" => $quote->author_id,
+    "category" => $quote->category_id
+  ];
+  //Make JSON
+  echo json_encode($quote_arr);
+};
