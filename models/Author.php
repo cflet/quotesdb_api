@@ -50,14 +50,15 @@ public function read_single() {
     $stmt->bindParam(1, $this->id);
 
     try{
-    // Execute query
-    $stmt->execute();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    $this->author = $row['author'];
-    return $stmt;
-
+      $stmt->execute();
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      if($row == false) return false;
+      else{
+        $this->author = $row['author'];
+        return $stmt;
+      }
     }catch(PDOException $e){
-        return false;
+      return false;
     }
 }
 

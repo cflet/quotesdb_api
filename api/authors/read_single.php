@@ -11,13 +11,17 @@ $author = new Author($db);
 $author->id = isset($_GET['id']) ? $_GET['id'] : die();
 
 // Get author
-$author->read_single();
+$result = $author->read_single();
 
-  // Create array
-  $author_arr = array(
-    'id' => $author->id,
-    'author' => $author->author
-  );
-
+if($result == false){
+  $noAut = ["message" => 'author_id Not Found'];
+  echo json_encode($noAut);
+}else{
+    // Create output
+  $author_arr = ["id" => $author->id,
+    "author" => $author->author
+  ];
 // Make JSON
-print_r(json_encode($author_arr));
+echo (json_encode($author_arr));  
+};
+
