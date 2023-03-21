@@ -13,17 +13,19 @@
   // Set ID to update
   $quote->id = $data->id;
 
- //Create array
- $quote_arr = array(
-  'id' => $quote->id
- );
+ //Create return
+$quote_arr = ["id" => $quote->id];
 
-  // Delete quote
-  if($quote->delete()) {
-    print_r(json_encode($quote_arr));
-  } else {
-    echo json_encode(
-      array('message' => 'Quote Not Deleted')
-    );
-  }
+ //Delete quote
+ $result = $quote->delete();
+
+ $row = $result->fetch(PDO::FETCH_ASSOC);
+
+ if($row == false){
+   $mess = ["message" => 'No Quotes Found'];
+  echo (json_encode($mess));
+ }else{
+  echo json_encode($quote_arr);
+ }
+
 

@@ -80,7 +80,6 @@ public function read_single() {
     }catch(PDOException $e){
         return false;
     }
-
 }
 
  // Create Post
@@ -157,7 +156,7 @@ public function update() {
 // Delete Post
 public function delete() {
     // Create query
-    $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+    $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id RETURNING id';
 
     // Prepare statement
     $stmt = $this->conn->prepare($query);
@@ -168,21 +167,14 @@ public function delete() {
     // Bind data
     $stmt->bindParam(':id', $this->id);
 
-    // Execute query
-    if($stmt->execute()) {
-      return true;
+    try{
+        // Execute query
+        $stmt->execute();
+        return $stmt;
+    }catch(PDOException $e){
+        return false;
     }
-
-    // Print error if something goes wrong
-    printf("Error: %s.\n", $stmt->error);
-
-    return false;
 }
-
-
-
-
-
 
 
 
