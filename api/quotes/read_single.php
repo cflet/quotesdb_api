@@ -15,7 +15,7 @@ $results = $quote->read_single();
 
 
 if($results == false){
-  $noQuote = ["message" => 'Not Quotes Found'];
+  $noQuote = ["message" => 'No Quotes Found'];
   echo json_encode($noQuote);
 }else{
   //Create output
