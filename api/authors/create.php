@@ -9,13 +9,13 @@ $author = new Author($db);
 
 // Get raw data
 $data = json_decode(file_get_contents("php://input"));
-$author->author = $data->author;
 
 //Check for missing param
-if($author->author == ""){
+if($data == null || $data == ""){
     $missParam = ["message" => 'Missing Required Parameters'];
     echo json_encode($missParam);
 }else{
+  $author->author = $data->author;
   $result = $author->create();
 
   if($result != false){

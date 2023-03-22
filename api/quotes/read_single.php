@@ -8,23 +8,36 @@ $db = $database->connect();
 $quote = new Quote($db);
 
 // Get ID
-$quote->id = isset($_GET['id']) ? $_GET['id'] : die();
+$quote->id = isset($_GET['id']) ? $_GET['id'] : null;
 
 // Get quote
-$results = $quote->read_single();
+$result = $quote->read_single();
 
-
-if($results == false){
+if($result == false){
   $noQuote = ["message" => 'No Quotes Found'];
   echo json_encode($noQuote);
 }else{
-  //Create output
-  $quote_arr = [
+$row = $result->fetch(PDO::FETCH_ASSOC);
+
+  //check if row has data
+  if($row != null){
+      //Create object
+  $quote_obj = [
     "id" => $quote->id,
     "quote" => $quote->quote,
     "author" => $quote->author_id,
     "category" => $quote->category_id
   ];
   //Make JSON
+  echo json_encode($quote_obj);
+  }else {
+  //No data create array
+  $quote_arr = array(
+    "id" => $quote->id,
+    "quote" => $quote->quote,
+    "author" => $quote->author_id,
+    "category" => $quote->category_id
+  );
   echo json_encode($quote_arr);
+  }
 };

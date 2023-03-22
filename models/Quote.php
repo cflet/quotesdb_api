@@ -6,13 +6,6 @@ class Quote {
 private $conn;
 private $table = 'quotes';
 
-// 'SELECT q.id, q.quote, a.author, c.category
-// FROM' . $this-table . 'q
-// INNER JOIN authors a
-// ON q.author_id = a.id
-// INNER JOIN categories c
-// ON q.category_id = c.id'
-
 
 //Post Properties
 public $id;
@@ -101,18 +94,13 @@ public function read_single() {
     $stmt->bindParam(':author_id', $this->author_id);
     $stmt->bindParam(':category_id', $this->category_id);
 
-    // Execute query
-    if($stmt->execute()) {
-      return true;
-}
-
-// Print error if something goes wrong
-printf("Error: %s.\n", $stmt->error);
-
-return false;
-
-
-
+    try{
+        // Execute query
+        $stmt->execute();
+        return true;
+    }catch(PDOException $e){
+        return false;
+    }
 }
 
 
@@ -141,17 +129,16 @@ public function update() {
         $stmt->bindParam(':author_id', $this->author_id);
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':id', $this->id);
-  
-        //Execure query
-        if($stmt->execute()) {
+
+        try{
+            $stmt->execute();
             return true;
+            
+        }catch(PDOException $e){
+            return false;
         }
-  
-        //Print error if something goes wrong
-        printf("Error: %s.\n", $stmt->error);
-  
-        return false;
   }
+
 
 // Delete Post
 public function delete() {
@@ -175,7 +162,5 @@ public function delete() {
         return false;
     }
 }
-
-
 
 }
