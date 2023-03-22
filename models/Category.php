@@ -27,10 +27,14 @@ public function read() {
     //Prepared Statement
     $stmt = $this->conn->prepare($query);
 
+
+  try{
     //Execute query
     $stmt->execute();
-
     return $stmt;
+  }catch(PDOException $e){
+    return false;
+  } 
 }
 
 // Get single post
@@ -74,16 +78,16 @@ public function read_single() {
     // Bind data
     $stmt->bindParam(':category', $this->category);
 
-    // Execute query
-    if($stmt->execute()) {
-      return true;
+   try{
+     // Execute query
+     $stmt->execute();
+     return true;
+   }catch(PDOException $e){
+     return false;
+   }
 }
 
-// Print error if something goes wrong
-printf("Error: %s.\n", $stmt->error);
-
-return false;
-}
+  
 
 
 //Create UPDATE
@@ -106,16 +110,15 @@ public function update() {
         $stmt->bindParam(':category', $this->category);
         $stmt->bindParam(':id', $this->id);
   
+      try{
         //Execure query
-        if($stmt->execute()) {
-            return true;
-        }
-  
-        //Print error if something goes wrong
-        printf("Error: %s.\n", $stmt->error);
-  
+        $stmt->execute();
+        return true;
+      }catch(PDOException $e){
         return false;
+      }
   }
+  
 
 // Delete Post
 public function delete() {
@@ -131,22 +134,14 @@ public function delete() {
     // Bind data
     $stmt->bindParam(':id', $this->id);
 
+  try{
     // Execute query
-    if($stmt->execute()) {
-      return true;
-    }
-
-    // Print error if something goes wrong
-    printf("Error: %s.\n", $stmt->error);
-
+    $stmt->execute();
+    return true;
+  }catch(PDOException $e){
     return false;
+  }
 }
-
-
-
-
-
-
 
 
 }

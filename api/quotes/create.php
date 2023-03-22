@@ -10,11 +10,21 @@ $quote = new Quote($db);
 // Get raw data
 $data = json_decode(file_get_contents("php://input"));
 
+
 $quote->quote = $data->quote;
 $quote->author_id = $data->author_id;
 $quote->category_id = $data->category_id;
 
-// Create quote
+if($data->quote == null || $data->author_id == null || $data->category_id == null){
+  $missReq = ["message" => 'Missing Required Parameters'];
+  echo json_encode($missReq);
+}else{
+  
+$quote->quote = $data->quote;
+$quote->author_id = $data->author_id;
+$quote->category_id = $data->category_id;
+  
+  // Create quote
 if($quote->create()) {
     echo json_encode(
     array('id' => $quote->id,
@@ -26,4 +36,7 @@ if($quote->create()) {
     echo json_encode(
     array('message' => 'Quote Not Created')
     );
+} 
 }
+
+

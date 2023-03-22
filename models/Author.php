@@ -127,22 +127,14 @@ public function delete() {
     // Bind data
     $stmt->bindParam(':id', $this->id);
 
+  try{
     // Execute query
-    if($stmt->execute()) {
-      return true;
-    }
-
-    // Print error if something goes wrong
-    printf("Error: %s.\n", $stmt->error);
-
+    $stmt->execute();
+    return true;  
+  }catch(PDOException $e){
     return false;
+  }
 }
-
-
-
-
-
-
 
 
 }
