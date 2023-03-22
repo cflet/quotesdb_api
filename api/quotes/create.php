@@ -11,10 +11,6 @@ $quote = new Quote($db);
 $data = json_decode(file_get_contents("php://input"));
 
 
-$quote->quote = $data->quote;
-$quote->author_id = $data->author_id;
-$quote->category_id = $data->category_id;
-
 if($data->quote == null || $data->author_id == null || $data->category_id == null){
   $missReq = ["message" => 'Missing Required Parameters'];
   echo json_encode($missReq);
